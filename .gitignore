@@ -1,6 +1,7 @@
 # Miscellaneous
 *.class
 *.log
+*.lock
 *.pyc
 *.swp
 .DS_Store
@@ -9,6 +10,7 @@
 .history
 .svn/
 migrate_working_dir/
+pubspec.lock
 
 # IntelliJ related
 *.iml
