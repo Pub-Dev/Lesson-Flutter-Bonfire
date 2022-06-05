@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lesson_flutter_bonfire/enemy/enemy_controller.dart';
 
 import 'player/player_controller.dart';
 
@@ -48,6 +49,14 @@ class _StarterState extends State<Starter> {
       ),
       showCollisionArea: false,
       lightingColorGame: Colors.black.withOpacity(0.9),
+      components: [
+        EnemyController(
+          Vector2(
+            32 * 23,
+            32 * 20,
+          ),
+        ),
+      ],
     );
   }
 }
