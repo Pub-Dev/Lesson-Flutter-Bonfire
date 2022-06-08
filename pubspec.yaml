@@ -10,11 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   bonfire: ^2.4.4
+  build_runner: ^2.1.11
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.0  
 
 flutter:
   uses-material-design: true
@@ -22,8 +23,9 @@ flutter:
   assets:
       - assets/images/
       - assets/images/maps/
-      - assets/images/pokemons/
-      - assets/images/avatars/
+      - assets/images/player/
+      - assets/images/enemies/
+      - assets/images/abilities/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

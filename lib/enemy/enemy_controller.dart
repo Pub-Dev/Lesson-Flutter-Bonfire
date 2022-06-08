@@ -1,10 +1,15 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson_flutter_bonfire/generator_enemy/generator_enemy_controller.dart';
 
+import '../abilities/slash_ability_sprite.dart';
 import 'enemy_sprite.dart';
 
 class EnemyController extends SimpleEnemy
-    with ObjectCollision, Lighting, AutomaticRandomMovement {
+    with
+        ObjectCollision,
+        AutomaticRandomMovement,
+        UseStateController<GeneratorEnemyController> {
   EnemyController(
     Vector2 position,
   ) : super(
@@ -18,13 +23,9 @@ class EnemyController extends SimpleEnemy
             runRight: EnemySprite.runRight,
             idleLeft: EnemySprite.idleLeft,
             runLeft: EnemySprite.runLeft,
-            idleUp: EnemySprite.idleUp,
-            runUp: EnemySprite.runUp,
-            idleDown: EnemySprite.idleDown,
-            runDown: EnemySprite.runDown,
             eightDirection: true,
           ),
-          speed: 30,
+          speed: 50,
         ) {
     setupCollision(
       CollisionConfig(
@@ -36,32 +37,28 @@ class EnemyController extends SimpleEnemy
         ],
       ),
     );
-
-    setupLighting(
-      LightingConfig(
-        radius: 32 * 2,
-        color: Colors.transparent,
-        pulseCurve: Curves.bounceInOut,
-        withPulse: true,
-        blurBorder: 40,
-      ),
-    );
   }
 
   @override
   void update(double dt) {
+    super.update(dt);
+
     seeAndMoveToPlayer(
       closePlayer: (ally) {
         simpleAttackMelee(
           damage: 20,
           size: Vector2(32, 32),
+          animationRight: SlashAbilitySprite.right,
+          animationDown: SlashAbilitySprite.down,
+          animationLeft: SlashAbilitySprite.left,
+          animationUp: SlashAbilitySprite.up,
+          withPush: true,
         );
       },
-      radiusVision: 32 * 3,
-      margin: 4,
+      radiusVision: 32 * 20,
+      margin: 10,
+      runOnlyVisibleInScreen: false,
     );
-
-    super.update(dt);
   }
 
   @override
@@ -70,8 +67,15 @@ class EnemyController extends SimpleEnemy
       canvas,
       borderWidth: 1,
       height: 2,
-      align: const Offset(0, -5),
+      align: const Offset(0, 0),
     );
     super.render(canvas);
+  }
+
+  @override
+  void die() {
+    controller.summon();
+    removeFromParent();
+    super.die();
   }
 }
