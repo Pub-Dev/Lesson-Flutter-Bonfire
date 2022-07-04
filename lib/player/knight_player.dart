@@ -1,9 +1,10 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:lesson_flutter_bonfire/player/knight_sprite.dart';
 
+import '../abilities/slash_ability_sprite.dart';
 import '../main.dart';
 
-class KnightPlayer extends SimplePlayer with ObjectCollision {
+class KnightPlayer extends SimplePlayer with ObjectCollision, JoystickListener {
   KnightPlayer()
       : super(
           position: Vector2(
@@ -31,5 +32,22 @@ class KnightPlayer extends SimplePlayer with ObjectCollision {
         ],
       ),
     );
+  }
+
+  @override
+  void joystickAction(JoystickActionEvent event) {
+    if (hasGameRef && !gameRef.camera.isMoving) {
+      if (event.event == ActionEvent.DOWN && event.id == 1) {
+        simpleAttackMelee(
+          damage: 10,
+          size: Vector2(40, 40),
+          animationRight: SlashAbilitySprite.right,
+          animationDown: SlashAbilitySprite.down,
+          animationLeft: SlashAbilitySprite.left,
+          animationUp: SlashAbilitySprite.up,
+          direction: lastDirection,
+        );
+      }
+    }
   }
 }
