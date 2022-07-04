@@ -3,20 +3,23 @@ import 'package:lesson_flutter_bonfire/enemy/goblin_sprite.dart';
 import 'package:lesson_flutter_bonfire/main.dart';
 
 import '../abilities/slash_ability_sprite.dart';
+import '../controllers/goblin_generator_controller.dart';
 
-class GoblinEnemy extends SimpleEnemy with ObjectCollision {
+class GoblinEnemy extends SimpleEnemy
+    with ObjectCollision, UseStateController<GoblinGeneratorController> {
   GoblinEnemy({
     required Vector2 position,
   }) : super(
           position: position,
           size: Vector2(32, 32),
-          speed: 30,
+          speed: 50,
           animation: SimpleDirectionAnimation(
             idleRight: GoblinSprite.idleRight,
             idleLeft: GoblinSprite.idleLeft,
             runRight: GoblinSprite.runRight,
             runLeft: GoblinSprite.runLeft,
           ),
+          life: 50,
         ) {
     setupCollision(
       CollisionConfig(
@@ -45,9 +48,16 @@ class GoblinEnemy extends SimpleEnemy with ObjectCollision {
           withPush: true,
         );
       },
-      radiusVision: tileSize * 3,
+      radiusVision: tileSize * 30,
     );
 
     super.update(dt);
+  }
+
+  @override
+  void die() {
+    controller.respawnMany();
+    removeFromParent();
+    super.die();
   }
 }

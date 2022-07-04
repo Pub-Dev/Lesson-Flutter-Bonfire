@@ -2,12 +2,13 @@ import 'package:bonfire/bonfire.dart';
 
 class KnightSprite {
   static Future<SpriteAnimation> _sequenceImage(
-    String fileName,
-  ) {
+    String fileName, {
+    int amount = 6,
+  }) {
     return SpriteAnimation.load(
       'player/$fileName',
       SpriteAnimationData.sequenced(
-        amount: 6,
+        amount: amount,
         stepTime: 0.15,
         textureSize: Vector2(16, 16),
         texturePosition: Vector2(0, 0),
@@ -23,4 +24,6 @@ class KnightSprite {
       _sequenceImage('knight_run_left.png');
   static Future<SpriteAnimation> get runRight =>
       _sequenceImage('knight_run_right.png');
+  static Future<SpriteAnimation> get die =>
+      _sequenceImage('knight_die.png', amount: 1);
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:lesson_flutter_bonfire/player/knight_sprite.dart';
 
@@ -35,6 +37,17 @@ class KnightPlayer extends SimplePlayer with ObjectCollision, JoystickListener {
   }
 
   @override
+  void render(Canvas canvas) {
+    drawDefaultLifeBar(
+      canvas,
+      borderWidth: 1,
+      height: 2,
+      align: const Offset(0, 0),
+    );
+    super.render(canvas);
+  }
+
+  @override
   void joystickAction(JoystickActionEvent event) {
     if (hasGameRef && !gameRef.camera.isMoving) {
       if (event.event == ActionEvent.DOWN && event.id == 1) {
@@ -49,5 +62,22 @@ class KnightPlayer extends SimplePlayer with ObjectCollision, JoystickListener {
         );
       }
     }
+  }
+
+  @override
+  void die() async {
+    removeFromParent();
+    final sprite = await KnightSprite.die;
+    gameRef.add(
+      GameDecoration.withSprite(
+        sprite: sprite.getSprite(),
+        position: Vector2(
+          position.x,
+          position.y,
+        ),
+        size: Vector2.all(30),
+      ),
+    );
+    super.die();
   }
 }
